@@ -1,2 +1,2 @@
 # python_training_Xaliy
-PYTHON ДЛЯ ТЕСТИРОВЩИКОВ, Б31
+PYTHON, тестирование
