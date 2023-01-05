@@ -5,16 +5,16 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import Select
 from selenium.common.exceptions import NoSuchElementException
 from selenium.common.exceptions import NoAlertPresentException
-import unittest #, time, re
+import unittest  #, time, re
+
 
 class TestAddGroup(unittest.TestCase):
     def setUp(self):
         self.wd = webdriver.Firefox()
-        self.wd.implicitly_wait(30)
+        self.wd.implicitly_wait(100)
 
     def test_add_group(self):
         wd = self.wd
-        wd.get("http://localhost/addressbook/")
         wd.get("http://localhost/addressbook/")
         wd.find_element_by_name("user").click()
         wd.find_element_by_name("user").clear()
@@ -30,10 +30,10 @@ class TestAddGroup(unittest.TestCase):
         wd.find_element_by_name("group_name").send_keys("new_group")
         wd.find_element_by_name("group_header").click()
         wd.find_element_by_name("group_header").clear()
-        wd.find_element_by_name("group_header").send_keys(u"хедер Группы")
+        wd.find_element_by_name("group_header").send_keys("хедер Группы")
         wd.find_element_by_name("group_footer").click()
         wd.find_element_by_name("group_footer").clear()
-        wd.find_element_by_name("group_footer").send_keys(u"футтер группы")
+        wd.find_element_by_name("group_footer").send_keys("футтер группы")
         wd.find_element_by_name("submit").click()
         wd.find_element_by_link_text("group page").click()
         wd.find_element_by_link_text("Logout").click()
