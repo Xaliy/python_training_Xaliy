@@ -4,7 +4,7 @@ from selenium.common.exceptions import NoSuchElementException
 from selenium.common.exceptions import NoAlertPresentException
 import unittest
 
-from group import Group
+from classes import Group
 
 
 class TestAddGroup(unittest.TestCase):
@@ -67,7 +67,7 @@ class TestAddGroup(unittest.TestCase):
         self.open_home_page(wd)
         self.login(wd, username='admin', password='secret')
         self.open_groups(wd)
-        self.create_group(wd, Group(name='new_group',
+        self.(wd, Group(name='new_group',
                                     header='хедер Группы',
                                     footer='футтер группы'))
         self.return_to_groups_page(wd)
