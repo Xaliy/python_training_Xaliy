@@ -13,13 +13,15 @@ class TestAddContact(unittest.TestCase):
         self.wd = webdriver.Firefox()
         self.wd.implicitly_wait(100)
 
-    def open_home_page(self, wd):
+    def open_home_page(self):
+        wd = self.wd
         # open home page
         wd.get('http://localhost/addressbook/')
 
-    def login(self, wd, username, password):
+    def login(self, username, password):
+        wd = self.wd
         # authorization
-        self.open_home_page(wd)
+        self.open_home_page()
         wd.find_element_by_name("user").click()
         wd.find_element_by_name("user").clear()
         wd.find_element_by_name("user").send_keys(username)
@@ -28,16 +30,18 @@ class TestAddContact(unittest.TestCase):
         wd.find_element_by_name("pass").send_keys(password)
         wd.find_element_by_xpath('//input[@value="Login"]').click()
 
-    def logaut_website(self, wd):
+    def logaut_website(self):
+        wd = self.wd
         # Logout
         wd.find_element_by_link_text('Logout').click()
 
-    def create_new_contact(self, wd, contact):
+    def create_new_contact(self, contact):
         """
         Добавляем новый контакт.
         Заполняем поля формы и сохраняем.
         """
-        self.open_form_new_contact(wd)
+        wd = self.wd
+        self.open_form_new_contact()
         # text fields
         wd.find_element_by_name('firstname').click()
         wd.find_element_by_name('firstname').clear()
@@ -123,13 +127,15 @@ class TestAddContact(unittest.TestCase):
         # save
         wd.find_element_by_xpath(
                 '//div[@id="content"]/form/input[21]').click()
-        self.return_to_home_page(wd)
+        self.return_to_home_page()
 
-    def return_to_home_page(self, wd):
+    def return_to_home_page(self):
+        wd = self.wd
         # home page
         wd.find_element_by_link_text('home').click()
 
-    def open_form_new_contact(self, wd):
+    def open_form_new_contact(self):
+        wd = self.wd
         wd.find_element_by_link_text('add new').click()
 
     def is_element_present(self, how, what):
@@ -143,9 +149,8 @@ class TestAddContact(unittest.TestCase):
         return True
 
     def test_add_contact(self):
-        wd = self.wd
-        self.login(wd, username='admin', password='secret')
-        self.create_new_contact(wd, Contact(firstname='firstname-au',
+        self.login(username='admin', password='secret')
+        self.create_new_contact(Contact(firstname='firstname-au',
                                             middlename='middlename-au',
                                             lastname='lastname-au',
                                             nickname='nickname-au',
@@ -170,7 +175,7 @@ class TestAddContact(unittest.TestCase):
                                             phone2='10',
                                             notes='my notes')
                                 )
-        self.logaut_website(wd)
+        self.logaut_website()
 
     def tearDown(self):
         self.wd.quit()
