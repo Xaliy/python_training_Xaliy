@@ -19,6 +19,7 @@ class TestAddContact(unittest.TestCase):
 
     def login(self, wd, username, password):
         # authorization
+        self.open_home_page(wd)
         wd.find_element_by_name("user").click()
         wd.find_element_by_name("user").clear()
         wd.find_element_by_name("user").send_keys(username)
@@ -36,6 +37,7 @@ class TestAddContact(unittest.TestCase):
         Добавляем новый контакт.
         Заполняем поля формы и сохраняем.
         """
+        self.open_form_new_contact(wd)
         # text fields
         wd.find_element_by_name('firstname').click()
         wd.find_element_by_name('firstname').clear()
@@ -121,6 +123,7 @@ class TestAddContact(unittest.TestCase):
         # save
         wd.find_element_by_xpath(
                 '//div[@id="content"]/form/input[21]').click()
+        self.return_to_home_page(wd)
 
     def return_to_home_page(self, wd):
         # home page
@@ -141,9 +144,7 @@ class TestAddContact(unittest.TestCase):
 
     def test_add_contact(self):
         wd = self.wd
-        self.open_home_page(wd)
         self.login(wd, username='admin', password='secret')
-        self.open_form_new_contact(wd)
         self.create_new_contact(wd, Contact(firstname='firstname-au',
                                             middlename='middlename-au',
                                             lastname='lastname-au',
@@ -169,7 +170,6 @@ class TestAddContact(unittest.TestCase):
                                             phone2='10',
                                             notes='my notes')
                                 )
-        self.return_to_home_page(wd)
         self.logaut_website(wd)
 
     def tearDown(self):

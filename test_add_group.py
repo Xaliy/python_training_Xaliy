@@ -23,6 +23,7 @@ class TestAddGroup(unittest.TestCase):
         wd.find_element_by_link_text('group page').click()
 
     def create_group(self, wd, group):
+        self.open_groups(wd)
         # init group creation
         wd.find_element_by_name("new").click()
         # fill group form
@@ -37,6 +38,7 @@ class TestAddGroup(unittest.TestCase):
         wd.find_element_by_name("group_footer").send_keys(group.footer)
         # submit group creation
         wd.find_element_by_name("submit").click()
+        self.return_to_groups_page(wd)
 
     def open_groups(self, wd):
         # open group page
@@ -44,6 +46,7 @@ class TestAddGroup(unittest.TestCase):
 
     def login(self, wd, username, password):
         # login
+        self.open_home_page(wd)
         wd.find_element_by_name("user").click()
         wd.find_element_by_name("user").clear()
         wd.find_element_by_name("user").send_keys(username)
@@ -64,24 +67,18 @@ class TestAddGroup(unittest.TestCase):
 
     def test_add_group(self):
         wd = self.wd
-        self.open_home_page(wd)
         self.login(wd, username='admin', password='secret')
-        self.open_groups(wd)
         self.create_group(wd, Group(name='new_group',
                                     header='хедер Группы',
                                     footer='футтер группы'))
-        self.return_to_groups_page(wd)
         self.logaut_website(wd)
 
     def test_add_empty_group(self):
         wd = self.wd
-        self.open_home_page(wd)
         self.login(wd, username="admin", password="secret")
-        self.open_groups(wd)
         self.create_group(wd, Group(name="",
-                          header="",
-                          footer=""))
-        self.return_to_groups_page(wd)
+                                    header="",
+                                    footer=""))
         self.logaut_website(wd)
 
     def tearDown(self):
