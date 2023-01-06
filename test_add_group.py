@@ -67,7 +67,7 @@ class TestAddGroup(unittest.TestCase):
         self.open_home_page(wd)
         self.login(wd, username='admin', password='secret')
         self.open_groups(wd)
-        self.(wd, Group(name='new_group',
+        self.create_group(wd, Group(name='new_group',
                                     header='хедер Группы',
                                     footer='футтер группы'))
         self.return_to_groups_page(wd)
