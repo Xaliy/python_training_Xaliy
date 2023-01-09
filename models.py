@@ -1,17 +1,17 @@
-
 class Group:
 	"""Класс описывающий группу и ее свойства"""
-
+	
 	def __init__(self, name, header, footer):
 		self.name = name
 		self.header = header
 		self.footer = footer
 
+
 class Contact:
 	"""Класс описывающий Контакт и его свойства"""
-
+	
 	def __init__(self, firstname, middlename, lastname, nickname,
-				 title, company, address, home, mobile, work,
+				 title, company, address, phone_home, phone_mobile, phone_work,
 				 fax, email, email2, email3, homepage, bday, bmonth,
 				 byear, aday, amonth, ayear, address2, phone2, notes):
 		self.firstname = firstname
@@ -22,9 +22,9 @@ class Contact:
 		self.title = title
 		self.company = company
 		self.address = address
-		self.home = home
-		self.mobile = mobile
-		self.work = work
+		self.phone_home = phone_home
+		self.phone_mobile = phone_mobile
+		self.phone_work = phone_work
 		self.fax = fax
 		self.email = email
 		self.email2 = email2

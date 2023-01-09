@@ -2,8 +2,7 @@
 import pytest
 
 from application import Application
-from classes import Group
-
+from models import Group
 
 @pytest.fixture
 def app(request):
