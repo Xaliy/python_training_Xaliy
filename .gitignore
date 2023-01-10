@@ -62,10 +62,11 @@ db.sqlite3
 db.sqlite3-journal
 
 # My file
-test_add_group1.py
-test_add_group2.py
-test_agg_group_chrom.py
-test_add_group3_unittest.py
+QQtest_add_group1.py
+QQtest_add_group2.py
+QQtest_agg_group_chrom.py
+QQtest_add_group3_unittest.py
+
 
 # Flask stuff:
 instance/
