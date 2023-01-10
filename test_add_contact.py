@@ -91,9 +91,12 @@ class TestAddContact(unittest.TestCase):
 		wd.find_element_by_name('homepage').send_keys(contact.homepage)
 		wd.find_element_by_name('bday').click()
 		# calendars
-		wd.find_element_by_xpath('//option[@value="1"]').click()
+		wd.find_element_by_xpath('//option[@value="' + contact.bday +
+								  '"]').click()
 		wd.find_element_by_name('bmonth').click()
-		wd.find_element_by_xpath('//option[@value="February"]').click()
+		print(contact.bmonth, str(contact.bmonth))
+		wd.find_element_by_xpath('//option[@value="' + contact.bmonth +
+								  '"]').click()
 		wd.find_element_by_name('byear').click()
 		wd.find_element_by_name('byear').clear()
 		wd.find_element_by_name('byear').send_keys(contact.byear)
@@ -157,12 +160,12 @@ class TestAddContact(unittest.TestCase):
 										email2='gg1@mail.cc',
 										email3='qq2@mail.cc',
 										homepage='www.homepage.cc',
-										bday='1',
-										bmonth='January',
+										bday='4',
+										bmonth='April',
 										byear='2000',
 										aday='2',
-										amonth='January',
-										ayear='2010',
+										amonth='February',
+										ayear='2023',
 										address2='my address',
 										phone2='10',
 										notes='my notes')
