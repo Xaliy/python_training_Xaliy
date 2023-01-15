@@ -11,14 +11,13 @@ def app(request):
 	request.addfinalizer(fixture.destroy)
 	return fixture
 
-	
 def test_add_contact(app):
 	"""
 	Создаем новый контакт.
 	Заполняем поля формы и сохраняем.
 	"""
 	app.session.login(username='admin', password='secret')
-	app.create_new_contact(Contact(firstname='firstname-au',
+	app.contact.create_new_contact(Contact(firstname='firstname-au',
 									middlename='middlename-au',
 									lastname='lastname-au',
 									nickname='nickname-au',

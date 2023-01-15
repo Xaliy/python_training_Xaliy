@@ -11,14 +11,13 @@ def app(request):
 	request.addfinalizer(fixture.destroy)
 	return fixture
 
-
 def test_add_group(app):
 	"""
 	Создаем новую группу.
 	Заполняем поля формы и сохраняем.
 	"""
 	app.session.login(username='admin', password='secret')
-	app.create_group(Group(name='new_group',
+	app.group.create(Group(name='new_group',
 						   header='хедер Группы',
 						   footer='футтер группы'))
 	app.session.logaut_website()
@@ -30,7 +29,7 @@ def test_add_empty_group(app):
 	Заполняем поля формы и сохраняем.
 	"""
 	app.session.login(username="admin", password="secret")
-	app.create_group(Group(name="",
+	app.group.create(Group(name="",
 						   header="",
 						   footer=""))
 	app.session.logaut_website()
