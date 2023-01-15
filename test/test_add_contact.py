@@ -17,7 +17,7 @@ def test_add_contact(app):
 	Создаем новый контакт.
 	Заполняем поля формы и сохраняем.
 	"""
-	app.login(username='admin', password='secret')
+	app.session.login(username='admin', password='secret')
 	app.create_new_contact(Contact(firstname='firstname-au',
 									middlename='middlename-au',
 									lastname='lastname-au',
@@ -42,4 +42,4 @@ def test_add_contact(app):
 									address2='my address',
 									phone2='10',
 									notes='my notes'))
-	app.logaut_website()
+	app.session.logaut_website()

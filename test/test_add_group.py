@@ -17,11 +17,11 @@ def test_add_group(app):
 	Создаем новую группу.
 	Заполняем поля формы и сохраняем.
 	"""
-	app.login(username='admin', password='secret')
+	app.session.login(username='admin', password='secret')
 	app.create_group(Group(name='new_group',
 						   header='хедер Группы',
 						   footer='футтер группы'))
-	app.logaut_website()
+	app.session.logaut_website()
 
 
 def test_add_empty_group(app):
@@ -29,8 +29,8 @@ def test_add_empty_group(app):
 	Создаем новую группу с нулевыми параметрами.
 	Заполняем поля формы и сохраняем.
 	"""
-	app.login(username="admin", password="secret")
+	app.session.login(username="admin", password="secret")
 	app.create_group(Group(name="",
 						   header="",
 						   footer=""))
-	app.logaut_website()
+	app.session.logaut_website()
