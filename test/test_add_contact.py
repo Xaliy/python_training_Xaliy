@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 import pytest
 
-from application import Application
-from models import Contact
+from fixture.application import Application
+from model.models import Contact
 
 
 @pytest.fixture
@@ -14,7 +14,7 @@ def app(request):
 	
 def test_add_contact(app):
 	"""
-	Создаем нНовый контакт.
+	Создаем новый контакт.
 	Заполняем поля формы и сохраняем.
 	"""
 	app.login(username='admin', password='secret')

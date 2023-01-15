@@ -67,7 +67,6 @@ QQtest_add_group2.py
 QQtest_agg_group_chrom.py
 QQtest_add_group3_unittest.py
 
-
 # Flask stuff:
 instance/
 .webassets-cache
