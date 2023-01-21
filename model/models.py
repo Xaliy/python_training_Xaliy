@@ -10,10 +10,12 @@ class Group:
 class Contact:
     """Класс описывающий Контакт и его свойства."""
 
-    def __init__(self, firstname, middlename, lastname, nickname,
-                 title, company, address, phone_home, phone_mobile, phone_work,
-                 fax, email, email2, email3, homepage, bday, bmonth,
-                 byear, aday, amonth, ayear, address2, phone2, notes):
+    def __init__(self, firstname, middlename=None, lastname=None,
+                 nickname=None, title=None, company=None, address=None,
+                 phone_home=None, phone_mobile=None, phone_work=None,
+                 fax=None, email=None, email2=None, email3=None, homepage=None,
+                 bday=None, bmonth=None, byear=None, aday=None, amonth=None,
+                 ayear=None, address2=None, phone2=None, notes=None):
         self.firstname = firstname
         self.middlename = middlename
         self.lastname = lastname

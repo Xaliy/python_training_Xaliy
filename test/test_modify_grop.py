@@ -7,9 +7,7 @@ def test_modify_group_name(app):
     Частичная модификация параметров группы.
     Изменяем параметр name.
     """
-    app.session.login(username='admin', password='secret')
     app.group.modify_first_group(Group(name='Modify name'))
-    app.session.logaut_website()
 
 
 def test_modify_group_header(app):
@@ -17,6 +15,14 @@ def test_modify_group_header(app):
     Частичная модификация параметров группы.
     Изменяем параметр header.
     """
-    app.session.login(username='admin', password='secret')
     app.group.modify_first_group(Group(header='Modify header'))
-    app.session.logaut_website()
+
+
+def test_modify_group_all(app):
+    """
+    Создаем новую группу.
+    Заполняем поля формы и сохраняем.
+    """
+    app.group.modify_first_group(Group(name='edit_group',
+                           header='edit хедер Группы',
+                           footer='edit футтер группы'))
