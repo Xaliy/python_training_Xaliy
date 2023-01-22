@@ -15,9 +15,15 @@ class ContactHelper:
         wd.find_element_by_link_text('home').click()
 
     def selected_first_contact(self):
-        """Внутренний метод селект первого контакта в списке"""
+        """Внутренний метод селект первого контакта в списке."""
         wd = self.app.wd
         wd.find_element_by_name("selected[]").click()
+
+    def count_contact(self):
+        """Метод определяет наличие контактов в списке."""
+        wd = self.app.wd
+        self.return_to_home_page()
+        return len(wd.find_elements_by_name("selected[]"))
 
     def _change_field_value(self, field_name, text):
         """Внутренний метод. Выбор и заполнение указанного поля."""

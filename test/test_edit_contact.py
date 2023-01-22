@@ -4,6 +4,9 @@ from model.models import Contact
 
 def test_edit_first_contact(app):
     """Тест редактируем первый контакт в списке."""
+    if app.contact.count_contact() == 0:
+        app.contact.create_new_contact(Contact(firstname='firstname_for_edit',
+                                               middlename='firstname_for_edit'))
     app.contact.edit_first_contact(Contact(firstname='ed_firstname-au',
                                     middlename='ed_middlename-au',
                                     lastname='ed_lastname-au',

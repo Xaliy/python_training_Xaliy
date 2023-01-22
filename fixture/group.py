@@ -35,6 +35,12 @@ class GroupHelper:
         self._change_field_value('group_header', group.header)
         self._change_field_value('group_footer', group.footer)
 
+    def count(self):
+        """Метод определяет есть ли созданные группы."""
+        wd = self.app.wd
+        self.open_groups()
+        return len(wd.find_elements_by_name("selected[]"))
+
     def create(self, group):
         """
         Метод создания новой группы.

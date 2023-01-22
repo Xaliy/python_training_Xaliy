@@ -10,7 +10,7 @@ class Application:
         # self.wd = webdriver.Firefox()
         # self.wd.implicitly_wait(100)
         self.wd = WebDriver()
-        self.wd.implicitly_wait(10)
+        self.wd.implicitly_wait(5)
         self.session = SessionHelper(self)
         self.group = GroupHelper(self)
         self.contact = ContactHelper(self)
