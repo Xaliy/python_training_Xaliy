@@ -31,8 +31,8 @@ def test_modify_group_all(app):
     if app.group.count() == 0:
         app.group.create(Group(name='Name_for_modify',
                                header='header_for_modify',
-                               footer='header_for_footer'
+                               footer='header'
                                ))
     app.group.modify_first_group(Group(name='edit_group',
                            header='edit хедер Группы',
-                           footer='edit футтер группы'))
+                           footer='футтер группы'))
