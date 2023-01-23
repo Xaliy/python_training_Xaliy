@@ -8,14 +8,17 @@ class GroupHelper:
         """Метод открытия формы для создания новой группы."""
         wd = self.app.wd
         if not (wd.current_url.endswith("/group.php") and
-           len(wd.find_elements_by_name("new")) > 0):
+                len(wd.find_elements_by_name("new")) > 0):
             # open group page
             wd.find_element_by_link_text("groups").click()
 
     def return_to_groups_page(self):
         """Метод. Переход на страницу со списком групп."""
         wd = self.app.wd
-        wd.find_element_by_link_text("group page").click()
+        if not (wd.current_url.endswith("/group.php") and
+                len(wd.find_elements_by_name("new")) > 0):
+            # open group page
+            wd.find_element_by_link_text("group page").click()
 
     def selected_first_group(self):
         """Внутренний метод селект первой группы в списке"""

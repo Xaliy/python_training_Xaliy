@@ -5,14 +5,19 @@ class ContactHelper:
         self.app = app
 
     def open_form_new_contact(self):
-        """Открываем форму для моздания нового контакта."""
+        """Открываем форму для создания нового контакта."""
         wd = self.app.wd
-        wd.find_element_by_link_text('add new').click()
+        if not (wd.current_url.endswith("/edit.php") and
+                len(wd.find_elements_by_xpath(
+                '//div[@id="content"]/form/input[21]')) > 0):
+            wd.find_element_by_link_text('add new').click()
 
     def return_to_home_page(self):
         """Переходим домашную страницу со списком контактов."""
         wd = self.app.wd
-        wd.find_element_by_link_text('home').click()
+        if not (wd.current_url.endswith("/addressbook/") and
+                len(wd.find_elements_by_xpath("//input[@value='Delete']")) > 0):
+            wd.find_element_by_link_text('home').click()
 
     def selected_first_contact(self):
         """Внутренний метод селект первого контакта в списке."""

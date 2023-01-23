@@ -34,5 +34,5 @@ def test_modify_group_all(app):
                                footer='header'
                                ))
     app.group.modify_first_group(Group(name='edit_group',
-                           header='edit хедер Группы',
-                           footer='футтер группы'))
+                                       header='edit хедер Группы',
+                                       footer='футтер группы'))
