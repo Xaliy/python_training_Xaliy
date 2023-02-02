@@ -6,7 +6,8 @@ def test_edit_first_contact(app):
     """Тест редактируем первый контакт в списке."""
     if app.contact.count_contact() == 0:
         app.contact.create_new_contact(Contact(firstname='firstname_for_edit',
-                                               middlename='firstname_for_edit'))
+                                       middlename='firstname_for_edit'))
+    old_contact = app.contact.get_contact_list()
     app.contact.edit_first_contact(Contact(firstname='ed_firstname-au',
                                    middlename='ed_middlename-au',
                                    lastname='ed_lastname-au',
@@ -31,3 +32,7 @@ def test_edit_first_contact(app):
                                    address2='ed_my address',
                                    phone2='10000',
                                    notes='ed_my notes'))
+
+    new_contact = app.contact.get_contact_list()
+    # сравнение
+    assert len(old_contact) == len(new_contact)

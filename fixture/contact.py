@@ -1,3 +1,7 @@
+# -*- coding: utf-8 -*-
+from model.models import Contact
+
+
 class ContactHelper:
     """фикстуры объекта контакт."""
 
@@ -127,3 +131,21 @@ class ContactHelper:
         # модальное окно
         wd.switch_to.alert.accept()
         self.return_to_home_page()
+
+# НЕ ДОПИСАЛИ
+    def get_contact_list(self):
+        """Метод сравнение списков контактов."""
+        wd = self.app.wd
+        self.return_to_home_page()
+        contacts = []
+
+        for element in wd.find_elements_by_name("entry"):
+            cells = element.find_elements_by_css_selector("td")
+            lastname = cells[1].text
+            firstname = cells[2].text
+            id = element.find_element_by_name(
+                    "selected[]").get_attribute("value")
+            contacts.append(Contact(lastname=lastname, firstname=firstname,
+                                    id=id))
+
+        return contacts

@@ -7,6 +7,8 @@ def test_add_contact(app):
     Создаем новый контакт.
     Заполняем поля формы и сохраняем.
     """
+    # сохранить старый список и сравнить с новым списком
+    old_contact = app.contact.get_contact_list()
     app.contact.create_new_contact(Contact(firstname='firstname-au',
                                    middlename='middlename-au',
                                    lastname='lastname-au',
@@ -31,3 +33,7 @@ def test_add_contact(app):
                                    address2='my address',
                                    phone2='10',
                                    notes='my notes'))
+
+    new_contact = app.contact.get_contact_list()
+    # сравнение
+    assert len(old_contact) + 1 == len(new_contact)
