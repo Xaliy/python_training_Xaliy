@@ -8,7 +8,7 @@ def test_edit_first_contact(app):
         app.contact.create_new_contact(Contact(firstname='firstname_for_edit',
                                        middlename='firstname_for_edit'))
     old_contact = app.contact.get_contact_list()
-    app.contact.edit_first_contact(Contact(firstname='ed_firstname-au',
+    contact = Contact(firstname='ed_firstname-au',
                                    middlename='ed_middlename-au',
                                    lastname='ed_lastname-au',
                                    nickname='ed_nickname-au',
@@ -31,8 +31,13 @@ def test_edit_first_contact(app):
                                    ayear='2020',
                                    address2='ed_my address',
                                    phone2='10000',
-                                   notes='ed_my notes'))
+                                   notes='ed_my notes')
 
+    contact.id = old_contact[0].id
+    app.contact.edit_first_contact(contact)
     new_contact = app.contact.get_contact_list()
     # сравнение
     assert len(old_contact) == len(new_contact)
+    old_contact[0] = contact
+    assert (sorted(old_contact, key=Contact.if_or_max)
+            == sorted(new_contact, key=Contact.if_or_max))

@@ -1,3 +1,6 @@
+from sys import maxsize
+
+
 class Group:
     """Класс описывающий группу и ее свойства."""
 
@@ -7,11 +10,26 @@ class Group:
         self.footer = footer
         self.id = id
 
+    def __repr__(self):
+        # return "%s:%s" % self.id, self.name
+        return f'{self.id}:{self.name}'
+
+    def __eq__(self, other):
+        return ((self.id is None or other.id is None or
+                 self.id == other.id) and self.name == other.name
+                )
+
+    def if_or_max(self):
+        """Метод сравнения списка по ключу ID."""
+        if self.id:
+            return int(self.id)
+        return maxsize
+
 
 class Contact:
     """Класс описывающий Контакт и его свойства."""
 
-    def __init__(self, firstname, middlename=None, lastname=None,
+    def __init__(self, firstname=None, middlename=None, lastname=None,
                  nickname=None, title=None, company=None, address=None,
                  phone_home=None, phone_mobile=None, phone_work=None,
                  fax=None, email=None, email2=None, email3=None, homepage=None,
@@ -43,3 +61,18 @@ class Contact:
         self.phone2 = phone2
         self.notes = notes
         self.id = id
+
+    def __repr__(self):
+        return f'{self.id}:{self.firstname}, {self.lastname}'
+
+    def __eq__(self, other):
+        return ((self.id is None or other.id is None or
+                 self.id == other.id)
+                and self.firstname == other.firstname
+                and self.lastname == other.lastname)
+
+    def if_or_max(self):
+        """Метод сравнения списка по ключу ID."""
+        if self.id:
+            return int(self.id)
+        return maxsize

@@ -9,7 +9,7 @@ def test_add_contact(app):
     """
     # сохранить старый список и сравнить с новым списком
     old_contact = app.contact.get_contact_list()
-    app.contact.create_new_contact(Contact(firstname='firstname-au',
+    contract = Contact(firstname='firstname-au',
                                    middlename='middlename-au',
                                    lastname='lastname-au',
                                    nickname='nickname-au',
@@ -32,8 +32,12 @@ def test_add_contact(app):
                                    ayear='2023',
                                    address2='my address',
                                    phone2='10',
-                                   notes='my notes'))
+                                   notes='my notes')
 
+    app.contact.create_new_contact(contract)
     new_contact = app.contact.get_contact_list()
     # сравнение
     assert len(old_contact) + 1 == len(new_contact)
+    old_contact.append(contract)
+    assert (sorted(old_contact, key=Contact.if_or_max)
+            == sorted(new_contact, key=Contact.if_or_max))

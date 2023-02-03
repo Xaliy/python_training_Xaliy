@@ -130,6 +130,8 @@ class ContactHelper:
         wd.find_element_by_xpath("//input[@value='Delete']").click()
         # модальное окно
         wd.switch_to.alert.accept()
+        # проверка на удаление
+        wd.find_element_by_css_selector("div.msgbox")
         self.return_to_home_page()
 
 # НЕ ДОПИСАЛИ
