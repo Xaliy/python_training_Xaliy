@@ -29,7 +29,7 @@ class ContactHelper:
         wd.find_element_by_name("selected[]").click()
 
     def count_contact(self):
-        """Метод определяет наличие контактов в списке."""
+        """Метод определяет наличие контактов в списке. Count."""
         wd = self.app.wd
         self.return_to_home_page()
         return len(wd.find_elements_by_name("selected[]"))
@@ -97,6 +97,7 @@ class ContactHelper:
         wd.find_element_by_xpath(
                 '//div[@id="content"]/form/input[21]').click()
         self.return_to_home_page()
+        self.contact_cache = None
 
     def edit_first_contact(self, contact):
         """
@@ -115,6 +116,7 @@ class ContactHelper:
         # save
         wd.find_element_by_xpath("//input[@value='Update']").click()
         self.return_to_home_page()
+        self.contact_cache = None
 
     def delete_first_contact(self):
         """
@@ -133,21 +135,26 @@ class ContactHelper:
         # проверка на удаление
         wd.find_element_by_css_selector("div.msgbox")
         self.return_to_home_page()
+        self.contact_cache = None
 
-# НЕ ДОПИСАЛИ
+    # кэширование данных
+    contact_cache = None
+
     def get_contact_list(self):
         """Метод сравнение списков контактов."""
-        wd = self.app.wd
-        self.return_to_home_page()
-        contacts = []
+        if self.contact_cache is None:
+            wd = self.app.wd
+            self.return_to_home_page()
+            self.contact_cache = []
 
-        for element in wd.find_elements_by_name("entry"):
-            cells = element.find_elements_by_css_selector("td")
-            lastname = cells[1].text
-            firstname = cells[2].text
-            id = element.find_element_by_name(
-                    "selected[]").get_attribute("value")
-            contacts.append(Contact(lastname=lastname, firstname=firstname,
-                                    id=id))
+            for element in wd.find_elements_by_name("entry"):
+                cells = element.find_elements_by_css_selector("td")
+                lastname = cells[1].text
+                firstname = cells[2].text
+                id = element.find_element_by_name(
+                        "selected[]").get_attribute("value")
+                self.contact_cache.append(Contact(lastname=lastname,
+                                                  firstname=firstname, id=id
+                                                  ))
 
-        return contacts
+        return list(self.contact_cache)

@@ -1,5 +1,6 @@
 from model.models import Group
 
+
 class GroupHelper:
     """Класс описывающий фикстуры объекта группа."""
 
@@ -64,6 +65,7 @@ class GroupHelper:
         # submit group creation
         wd.find_element_by_name('submit').click()
         self.return_to_groups_page()
+        self.group_cache = None
 
     def delete_first_group(self):
         """
@@ -78,6 +80,7 @@ class GroupHelper:
         # submit and deletion
         wd.find_element_by_name("delete").click()
         self.return_to_groups_page()
+        self.group_cache = None
 
     def modify_first_group(self, new_group_date):
         """
@@ -95,18 +98,23 @@ class GroupHelper:
         # submit modification
         wd.find_element_by_name("update").click()
         self.return_to_groups_page()
+        self.group_cache = None
+
+    # кэширование данных
+    group_cache = None
 
     def get_group_list(self):
         """Метод сравнение списков групп."""
-        wd = self.app.wd
-        self.open_groups_page()
-        groups = []
+        if self.group_cache is None:
+            wd = self.app.wd
+            self.open_groups_page()
+            self.group_cache = []
 
-        for element in wd.find_elements_by_css_selector("span.group"):
-            text = element.text
-            id = element.find_element_by_name(
-                    "selected[]").get_attribute("value")
-            groups.append(Group(name=text, id=id))  # добавляем в модель id
+            for element in wd.find_elements_by_css_selector("span.group"):
+                text = element.text
+                id = element.find_element_by_name(
+                        "selected[]").get_attribute("value")
+                self.group_cache.append(Group(name=text, id=id))
 
-        return groups
+        return list(self.group_cache)
 

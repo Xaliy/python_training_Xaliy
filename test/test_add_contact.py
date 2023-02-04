@@ -35,9 +35,10 @@ def test_add_contact(app):
                                    notes='my notes')
 
     app.contact.create_new_contact(contract)
-    new_contact = app.contact.get_contact_list()
+    # new_contact = app.contact.get_contact_list()
     # сравнение
-    assert len(old_contact) + 1 == len(new_contact)
+    assert len(old_contact) + 1 == app.contact.count_contact()
+    new_contact = app.contact.get_contact_list()
     old_contact.append(contract)
     assert (sorted(old_contact, key=Contact.if_or_max)
             == sorted(new_contact, key=Contact.if_or_max))
