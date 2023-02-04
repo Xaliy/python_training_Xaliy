@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+from random import randrange
+
 from model.models import Group
 
 
@@ -11,13 +13,16 @@ def test_modify_group_name(app):
         app.group.create(Group(name='Test_for_modify'))
 
     old_groups = app.group.get_group_list()
+    index = randrange(len(old_groups))
     group = Group(name='Modify name')
-    group.id = old_groups[0].id
-    app.group.modify_first_group(group)
+    # group.id = old_groups[0].id
+    group.id = old_groups[index].id
+    # app.group.modify_first_group(group)
+    app.group.modify_group_by_index(index, group)
     new_groups = app.group.get_group_list()
     # сравнение
     assert len(old_groups) == len(new_groups)
-    old_groups[0] = group
+    old_groups[index] = group
     assert (sorted(old_groups, key=Group.if_or_max) ==
             sorted(new_groups, key=Group.if_or_max))
 

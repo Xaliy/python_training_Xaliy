@@ -28,6 +28,11 @@ class ContactHelper:
         wd = self.app.wd
         wd.find_element_by_name("selected[]").click()
 
+    def selected_contact_by_index(self, index):
+        """Внутренний метод селект первого контакта в списке."""
+        wd = self.app.wd
+        wd.find_elements_by_name("selected[]")[index].click()
+
     def count_contact(self):
         """Метод определяет наличие контактов в списке. Count."""
         wd = self.app.wd
@@ -100,16 +105,15 @@ class ContactHelper:
         self.contact_cache = None
 
     def edit_first_contact(self, contact):
-        """
-        Вызов метода открытия формы создания нового контакта.
-        Добавляем новый контакт.
-        Заполняем поля формы и сохраняем.
-        Вызов метода перехода на домашную страницу.
-        """
+        """Метод редактирования первого контакта в списке."""
+        self.edit_contact_by_index(0, contact)
+
+    def edit_contact_by_index(self, index, contact):
+        """Метод редактирования указанного контакта в списке."""
         wd = self.app.wd
         self.return_to_home_page()
         # select first contact
-        self.selected_first_contact()
+        self.selected_contact_by_index(index)
         wd.find_element_by_xpath("//img[@alt='Edit']").click()
         # modify fill
         self._fill_contact_form(contact)
@@ -119,15 +123,19 @@ class ContactHelper:
         self.contact_cache = None
 
     def delete_first_contact(self):
+        """Метод удаление первого контакта в списке."""
+        self.delete_contact_by_index(0)
+
+    def delete_contact_by_index(self, index):
         """
-        Метод удаление первого в списке контакта.
+        Метод удаление указанного контакта в списке.
         Открываем домашную страницу со списком контактов.
-        Отмечаем первый контакт в списке. Удаляем.
+        Отмечаем нужный контакт в списке. Удаляем.
         """
         wd = self.app.wd
         self.return_to_home_page()
         # select first contact
-        self.selected_first_contact()
+        self.selected_contact_by_index(index)
         # submit and deletion
         wd.find_element_by_xpath("//input[@value='Delete']").click()
         # модальное окно

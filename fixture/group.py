@@ -28,6 +28,11 @@ class GroupHelper:
         wd = self.app.wd
         wd.find_element_by_name("selected[]").click()
 
+    def selected_group_by_index(self, index):
+        """Внутренний метод селект заданной группы в списке"""
+        wd = self.app.wd
+        wd.find_elements_by_name("selected[]")[index].click()
+
     def _change_field_value(self, field_name, text):
         """Внутренний метод. Выбор и заполнение указанного поля."""
         wd = self.app.wd
@@ -68,15 +73,19 @@ class GroupHelper:
         self.group_cache = None
 
     def delete_first_group(self):
+        """ Метод удаление первой группы в списке."""
+        self.delete_group_by_index(0)
+
+    def delete_group_by_index(self, index):
         """
-        Метод удаление первой в списке группы.
-        Открываем страницу со списком групп. Находим и удаляем первую
+        Метод удаление указанной группы в списке.
+        Открываем страницу со списком групп. Находим и удаляем произвольную
         группу в списке. Возвращаемся к списку групп.
         """
         wd = self.app.wd
         self.open_groups_page()
         # select first group
-        self.selected_first_group()
+        self.selected_group_by_index(index)
         # submit and deletion
         wd.find_element_by_name("delete").click()
         self.return_to_groups_page()
@@ -84,13 +93,21 @@ class GroupHelper:
 
     def modify_first_group(self, new_group_date):
         """
-        Метод изменения параметров выбранной группы.
+        Метод изменения параметров первой группы.
+        Открываем страницу со списком групп. Находим и изменяем
+        указанные параметры выбранной группы. Возвращаемся к списку групп.
+        """
+        self.modify_group_by_index(0, new_group_date)
+
+    def modify_group_by_index(self, index, new_group_date):
+        """
+        Метод изменения параметров указанной группы.
         Открываем страницу со списком групп. Находим и изменяем
         указанные параметры выбранной группы. Возвращаемся к списку групп.
         """
         wd = self.app.wd
         self.open_groups_page()
-        self.selected_first_group()
+        self.selected_group_by_index(index)
         # open modification form group
         wd.find_element_by_name("edit").click()
         # fill group form
