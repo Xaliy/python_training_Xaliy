@@ -114,7 +114,11 @@ class ContactHelper:
         self.return_to_home_page()
         # select first contact
         self.selected_contact_by_index(index)
-        wd.find_element_by_xpath("//img[@alt='Edit']").click()
+        tr = str(index + 2)
+        # wd.find_element_by_xpath("//img[@alt='Edit']").click()
+        # wd.find_element_by_xpath('//table[@id="maintable"]/tbody/tr['
+        #                          + tr + ']/td[8]/a/img').click()
+        wd.find_element_by_xpath('//tr[' + tr + ']/td[8]/a/img').click()
         # modify fill
         self._fill_contact_form(contact)
         # save
