@@ -52,9 +52,11 @@ class ContactHelper:
         wd = self.app.wd
         if text is not None:
             wd.find_element_by_name(field_name).click()
-            wd.find_element_by_xpath('//select[@name="' + field_name +
-                                     '"]//option[@value="'
-                                     + text + '"]').click()
+            # wd.find_element_by_xpath('//select[@name="' + field_name +
+            #                          '"]//option[@value="'
+            #                          + text + '"]').click()
+            wd.find_element_by_xpath(
+                f'//select[@name="{field_name}"]//option[@value="{text}"]').click()
 
     def _fill_contact_form(self, contact):
         """Внутренний метод заполнения полей формы группа."""
@@ -118,7 +120,8 @@ class ContactHelper:
         # wd.find_element_by_xpath("//img[@alt='Edit']").click()
         # wd.find_element_by_xpath('//table[@id="maintable"]/tbody/tr['
         #                          + tr + ']/td[8]/a/img').click()
-        wd.find_element_by_xpath('//tr[' + tr + ']/td[8]/a/img').click()
+        # wd.find_element_by_xpath('//tr[' + tr + ']/td[8]/a/img').click()
+        wd.find_element_by_xpath(f'//tr[{tr}]/td[8]/a/img').click()
         # modify fill
         self._fill_contact_form(contact)
         # save
