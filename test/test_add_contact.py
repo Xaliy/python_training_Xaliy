@@ -16,9 +16,9 @@ def test_add_contact(app):
                                    title='title-au',
                                    company='company-au',
                                    address='address-au',
-                                   phone_home='999-777-8888',
-                                   phone_mobile='777-333-4444',
-                                   phone_work='1234',
+                                   phone_home='9997778888',
+                                   phone_mobile='7773334444',
+                                   phone_work='123499',
                                    fax='123456',
                                    email='gg@mail.cc',
                                    email2='gg1@mail.cc',
@@ -31,7 +31,7 @@ def test_add_contact(app):
                                    amonth='March',
                                    ayear='2023',
                                    address2='my address',
-                                   phone2='10',
+                                   phone2='10789464',
                                    notes='my notes')
 
     app.contact.create_new_contact(contract)

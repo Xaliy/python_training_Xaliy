@@ -34,7 +34,8 @@ class Contact:
                  phone_home=None, phone_mobile=None, phone_work=None,
                  fax=None, email=None, email2=None, email3=None, homepage=None,
                  bday=None, bmonth=None, byear=None, aday=None, amonth=None,
-                 ayear=None, address2=None, phone2=None, notes=None, id=None):
+                 ayear=None, address2=None, phone2=None, notes=None, id=None,
+                 all_phones_from_home_page=None, all_gmail_from_home_page=None):
         self.firstname = firstname
         self.middlename = middlename
         self.lastname = lastname
@@ -61,6 +62,8 @@ class Contact:
         self.phone2 = phone2  # работаем с этим полем
         self.notes = notes
         self.id = id
+        self.all_phones_from_home_page = all_phones_from_home_page
+        self.all_gmail_from_home_page = all_gmail_from_home_page
 
     def __repr__(self):
         return f'{self.id}:{self.firstname}, {self.lastname}'

@@ -58,7 +58,8 @@ class ContactHelper:
             #                          '"]//option[@value="'
             #                          + text + '"]').click()
             wd.find_element_by_xpath(
-                f'//select[@name="{field_name}"]//option[@value="{text}"]').click()
+                f'''//select[@name="{field_name}"]
+                    //option[@value="{text}"]''').click()
 
     def _fill_contact_form(self, contact):
         """Внутренний метод заполнения полей формы группа."""
@@ -168,18 +169,30 @@ class ContactHelper:
                 cells = element.find_elements_by_css_selector("td")
                 lastname = cells[1].text
                 firstname = cells[2].text
+                addr = cells[3].text
+                email = cells[4].text
+                # email = cells[5].text
+                # email = cells[4].text
+                all_phones = cells[5].text
                 id = element.find_element_by_name(
                         "selected[]").get_attribute("value")
                 # id = cells[0].find_element_by_tag_name(
                 #  "input").get_attribute("value")  # вариант локатора
-                all_phones = cells[5].text.splitlines()
+                # all_phones = cells[5].text.splitlines()
+                # self.contact_cache.append(Contact(lastname=lastname,
+                #                                   firstname=firstname, id=id,
+                #                                   phone_home=all_phones[0],
+                #                                   phone_mobile=all_phones[1],
+                #                                   phone_work=all_phones[2],
+                #                                   phone2=all_phones[3]
+                # )
                 self.contact_cache.append(Contact(lastname=lastname,
-                                                  firstname=firstname, id=id,
-                                                  phone_home=all_phones[0],
-                                                  phone_mobile=all_phones[1],
-                                                  phone_work=all_phones[2],
-                                                  phone2=all_phones[3]
-                ))
+                                                firstname=firstname, id=id,
+                                                email=email, address=addr,
+                                                # добавить в модель
+                                                all_phones_from_home_page=
+                                                    all_phones
+                                                  ))
 
         return list(self.contact_cache)
 
@@ -211,9 +224,14 @@ class ContactHelper:
         phone_mobile = wd.find_element_by_name("mobile").get_attribute("value")
         phone2 = wd.find_element_by_name("phone2").get_attribute(
             "value")
+        address = wd.find_element_by_name("address").get_attribute("value")
+        email = wd.find_element_by_name("email").get_attribute("value")
+        email2 = wd.find_element_by_name("email2").get_attribute("value")
+        email3 = wd.find_element_by_name("email3").get_attribute("value")
         return Contact(firstname=firstname, lastname=lastname, id=id,
                        phone_home=phone_home, phone_mobile=phone_mobile,
-                       phone_work=phone_work, phone2=phone2)
+                       phone_work=phone_work, phone2=phone2, address=address,
+                       email=email, email2=email2, email3=email3)
 
     def get_contact_from_view_page(self, index):
         """Вернуть информацию с формы просмотра контакта."""
@@ -226,3 +244,20 @@ class ContactHelper:
         phone2 = re.search("P: (.*)", text).group(1)
         return Contact(phone_home=phone_home, phone_mobile=phone_mobile,
                        phone_work=phone_work, phone2=phone2)
+
+    def get_contact_from_homepage_page(self, index):
+        """Вернуть информацию по контакту со страницы списка контактов."""
+        wd = self.app.wd
+        self.return_to_home_page()
+        element = wd.find_elements_by_name("entry")[index]
+        cells = element.find_elements_by_tag_name("td")
+        id = element.find_element_by_name("selected[]").get_attribute("value")
+        firstname = cells[2].text
+        lastname = cells[1].text
+        address = cells[3].text
+        email = cells[4].text
+        all_phones = cells[5].text
+        return Contact(firstname=firstname, lastname=lastname, id=id,
+                       email=email, address=address,
+                       all_phones_from_home_page=all_phones,
+                       all_gmail_from_home_page=email)
