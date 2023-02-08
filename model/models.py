@@ -12,7 +12,7 @@ class Group:
 
     def __repr__(self):
         # return "%s:%s" % self.id, self.name
-        return f'{self.id}:{self.name}'
+        return f'{self.id}: {self.name}, {self.header}, {self.footer}'
 
     def __eq__(self, other):
         return ((self.id is None or other.id is None or
@@ -35,7 +35,8 @@ class Contact:
                  fax=None, email=None, email2=None, email3=None, homepage=None,
                  bday=None, bmonth=None, byear=None, aday=None, amonth=None,
                  ayear=None, address2=None, phone2=None, notes=None, id=None,
-                 all_phones_from_home_page=None, all_gmail_from_home_page=None):
+                 all_phones_from_home_page=None,
+                 all_gmail_from_home_page=None):
         self.firstname = firstname
         self.middlename = middlename
         self.lastname = lastname
@@ -66,7 +67,8 @@ class Contact:
         self.all_gmail_from_home_page = all_gmail_from_home_page
 
     def __repr__(self):
-        return f'{self.id}:{self.firstname}, {self.lastname}'
+        return f'''{self.id}:{self.firstname}, {self.lastname},
+                    {self.company}, {self.address}'''
 
     def __eq__(self, other):
         return ((self.id is None or other.id is None or
