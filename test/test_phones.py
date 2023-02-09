@@ -3,13 +3,13 @@ import re
 
 
 def _clear(s):
-    """Функция очистки символов."""
-    return re.sub("[() -]", "", s)
+    """Функция очистки символов для телефона."""
+    return re.sub('[() -]', '', s)
 
 
 def _merge_phones_like_on_home_page(contact):
     """Функция склеивания телефонов в одну строку без пробелов и символов."""
-    return "\n".join(filter(lambda x: x != "",
+    return "\n".join(filter(lambda x: x != '',
                             map(lambda x: _clear(x),
                                 filter(lambda x: x is not None,
                                        [contact.phone_home,

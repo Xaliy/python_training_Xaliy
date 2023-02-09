@@ -238,12 +238,16 @@ class ContactHelper:
         wd = self.app.wd
         self.open_contact_to_view_by_index(index)
         text = wd.find_element_by_id("content").text
-        phone_home = re.search("H: (.*)", text).group(1)
-        phone_work = re.search("W: (.*)", text).group(1)
-        phone_mobile = re.search("M: (.*)", text).group(1)
-        phone2 = re.search("P: (.*)", text).group(1)
-        return Contact(phone_home=phone_home, phone_mobile=phone_mobile,
-                       phone_work=phone_work, phone2=phone2)
+
+        if text is not '':
+            phone_home = re.search("H: (.*)", text).group(1)
+            phone_work = re.search("W: (.*)", text).group(1)
+            phone_mobile = re.search("M: (.*)", text).group(1)
+            phone2 = re.search("P: (.*)", text).group(1)
+            return Contact(phone_home=phone_home, phone_mobile=phone_mobile,
+                           phone_work=phone_work, phone2=phone2)
+        return Contact(phone_home='', phone_mobile='',
+                       phone_work='', phone2='')
 
     def get_contact_from_homepage_page(self, index):
         """Вернуть информацию по контакту со страницы списка контактов."""
