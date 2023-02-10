@@ -7,7 +7,6 @@ from fixture.application import Application
 fixture = None
 
 
-# @pytest.fixture(scope="session")
 @pytest.fixture
 def app(request):
     global fixture
@@ -39,4 +38,4 @@ def stop(request):
 def pytest_addoption(parser):
     """функция добавления опции командной строки"""
     parser.addoption("--browser", action="store",
-                     defaulf="firefox")
+                     default="firefox")
