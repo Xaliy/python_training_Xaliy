@@ -2,13 +2,13 @@
 from model.models import Group
 
 
-def test_add_group(app, data_groups):
+def test_add_group(app, json_groups):
     """
     Создаем новую группу.
     Заполняем поля формы и сохраняем.
     """
     # сохранить старый список и сравнить с новым списком
-    group = data_groups
+    group = json_groups
     old_groups = app.group.get_group_list()
     app.group.create(group)
     # сравнение

@@ -2,13 +2,13 @@
 from model.models import Contact
 
 
-def test_add_contact(app, data_contacts):
+def test_add_contact(app, json_contacts):
     """
     Создаем новый контакт.
     Заполняем поля формы и сохраняем.
     """
     # сохранить старый список и сравнить с новым списком
-    contact = data_contacts
+    contact = json_contacts
     old_contact = app.contact.get_contact_list()
     app.contact.create_new_contact(contact)
     # new_contact = app.contact.get_contact_list()

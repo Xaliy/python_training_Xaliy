@@ -1,4 +1,5 @@
-import json
+# import json
+import jsonpickle
 import os.path
 import random
 import string
@@ -10,14 +11,14 @@ from model.models import Contact
 # из документации import getopt, sys
 try:
     opts, args = getopt.getopt(sys.argv[1:], "n:f:",
-                               ["number of contact", "file"])
+                               ["number of contacts", "file"])
 except getopt.GetoptError as err:
     getopt.usage()
     sys.exit(2)
 
 # указываем дефолтные значения
 n = 5
-f = 'data/contact.json'
+f = 'data/contacts.json'
 
 # внешнее уравление генератором, иначе по дефолту
 for o, a in opts:
@@ -89,6 +90,10 @@ testdata = [Contact(firstname="", middlename="", lastname="")] + [
 
 file = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', f)
 
+# with open(file, 'w') as out:
+#     # dumps() - данные в строку
+#     out.write(json.dumps(testdata, default=lambda x: x.__dict__, indent=2))
+
 with open(file, 'w') as out:
-    # dumps() - данные в строку
-    out.write(json.dumps(testdata, default=lambda x: x.__dict__, indent=2))
+    jsonpickle.set_encoder_options('json', indent=2)
+    out.write(jsonpickle.encode(testdata))
