@@ -1,4 +1,4 @@
-# from selenium.webdriver.firefox.webdriver import WebDriver
+# from selenium.webdriver.firefox.webdriver import WebDriver - заменяем
 from selenium import webdriver
 
 from fixture.contact import ContactHelper
