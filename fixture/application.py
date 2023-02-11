@@ -1,7 +1,6 @@
 # from selenium.webdriver.firefox.webdriver import WebDriver
 from selenium import webdriver
 
-
 from fixture.contact import ContactHelper
 from fixture.group import GroupHelper
 from fixture.session import SessionHelper
@@ -34,7 +33,7 @@ class Application:
         """Открыть форму авторизации приложения."""
         wd = self.wd
         # open home page
-        # wd.get("http://localhost/addressbook/")
+        # wd.get("http://localhost/addressbook/") - убрали в JSON
         wd.get(self.base_url)
 
     def destroy(self):

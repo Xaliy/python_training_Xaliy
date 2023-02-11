@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
-import pytest
+import os.path
 import json
 
+import pytest
 
 from fixture.application import Application
 
@@ -16,7 +17,13 @@ def app(request):
     global target
     browser = request.config.getoption('--browser')
     if target is None:
-        with open(request.config.getoption('--target')) as conf:
+        # config_file = (прикрепляем  join(определяем
+        # директорию(преобразовали путь текущего __file__
+        # в абсолютный)), и то что приклеиваем) - т.о нашли путь к target.json
+        config_file = os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                                   request.config.getoption('--target'))
+        # with open(request.config.getoption('--target')) as conf:
+        with open(config_file) as conf:
             target = json.load(conf)
         # base_url = request.config.getoption('--baseUrl')
         # username = request.config.getoption('--username')
@@ -47,5 +54,6 @@ def pytest_addoption(parser):
     parser.addoption("--browser", action="store", default='firefox')
     parser.addoption("--target", action="store",
                      default='target.json')
-    parser.addoption("--target", action="store", default='target.json')
-    parser.addoption("--target", action="store", default='target.json')
+    # это уже не нужно- берем из одного файла
+    # parser.addoption("--target", action="store", default='target.json')
+    # parser.addoption("--target", action="store", default='target.json')
