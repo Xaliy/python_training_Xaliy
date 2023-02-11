@@ -37,12 +37,12 @@ def _random_sting(prefix, maxlen):
 
 
 # 1 вариант с параметрами список с пустыми строками и 5 вариантов с генерацией
-testdate = [Group(name='', header='', footer='')]+[
+testdata = [Group(name='', header='', footer='')]+[
     Group(name=_random_sting('name', 10), header=_random_sting('header', 20),
           footer=_random_sting('footer', 20)) for i in range(n)]
 
-file = os.path.join(os.path.dirname(os.path.abspath(__file__)),
-                    '..', f)
+file = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', f)
+
 with open(file, 'w') as out:
     # dumps() - данные в строку
-    out.write(json.dumps(testdate, default=lambda x: x.__dict__, indent=2))
+    out.write(json.dumps(testdata, default=lambda x: x.__dict__, indent=2))

@@ -4,7 +4,7 @@ from model.models import Group
 
 
 # для отладки фиксированный набор
-testdate = [
+testdata = [
     Group(name='new_group1', header='хедер Группы1', footer='футтер группы1'),
     Group(name='new_group2', header='хедер Группы2', footer='футтер группы2')
 ]

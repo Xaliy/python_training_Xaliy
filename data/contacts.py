@@ -4,7 +4,7 @@ from model.models import Contact
 
 # для отладки фиксированный набор
 # constant \
-testdate = [
+testdata = [
     Contact(firstname='firstname-au1', middlename='middlename-au1',
             lastname='lastname-au1', nickname='nickname-au1',
             title='title-au1', company='company-au1',

@@ -49,19 +49,18 @@ def stop(request):
 # в данном случае ввод значения из консоли и из JSON
 def pytest_addoption(parser):
     """функция добавления опции командной строки"""
-    parser.addoption("--browser", action="store", default='firefox')
-    parser.addoption("--target", action="store",
-                     default='target.json')
+    parser.addoption('--browser', action='store', default='firefox')
+    parser.addoption('--target', action='store', default='target.json')
 
 
 # получить всю информайцию
 def pytest_generate_tests(metafunc):
     for fixture in metafunc.fixturenames:
-        if fixture.startswith('date_'):
+        if fixture.startswith('data_'):
             testdata = load_from_module(fixture[5:])
-            metafunc.parametrize(fixture, testdata,
-                                 ids=[str(x) for x in testdata])
+            metafunc.parametrize(fixture, testdata, ids=[str(x)
+                                                         for x in testdata])
 
 
 def load_from_module(module):
-    return importlib.import_module(f'date.{module}').testdate
+    return importlib.import_module(f'data.{module}').testdata

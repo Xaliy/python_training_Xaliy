@@ -1,4 +1,3 @@
-# генератор групп - создаем тестовые наборы в формате JSON
 import json
 import os.path
 import random
@@ -60,7 +59,7 @@ def _random_email(prefix):
 
 
 # параметризованны список
-testdate = [Contact(firstname="", middlename="", lastname="")] + [
+testdata = [Contact(firstname="", middlename="", lastname="")] + [
              Contact(firstname=_random_sting('firstname', 10),
                      middlename=_random_sting('middlename', 10),
                      lastname=_random_sting('lastname', 10),
@@ -88,8 +87,8 @@ testdate = [Contact(firstname="", middlename="", lastname="")] + [
              for i in range(5)
             ]
 
-file = os.path.join(os.path.dirname(os.path.abspath(__file__)),
-                    '..', f)
+file = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', f)
+
 with open(file, 'w') as out:
     # dumps() - данные в строку
-    out.write(json.dumps(testdate, default=lambda x: x.__dict__, indent=2))
+    out.write(json.dumps(testdata, default=lambda x: x.__dict__, indent=2))

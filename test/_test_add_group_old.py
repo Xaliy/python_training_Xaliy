@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 import pytest
 
-from data.groups import testdate # ИЛИ constant as testdate
+from data.groups import testdata # ИЛИ constant as testdate
 from model.models import Group
 
 
-@pytest.mark.parametrize("group", testdate, ids=[repr(x) for x in testdate])
+@pytest.mark.parametrize("group", testdata, ids=[repr(x) for x in testdata])
 def test_add_group(app, group):
     """
     Создаем новую группу.
