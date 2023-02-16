@@ -10,28 +10,33 @@ class GroupHelper:
     def open_groups_page(self):
         """Метод открытия формы для создания новой группы."""
         wd = self.app.wd
-        if not (wd.current_url.endswith("/group.php") and
-                len(wd.find_elements_by_name("new")) > 0):
+        if not (wd.current_url.endswith('/group.php') and
+                len(wd.find_elements_by_name('new')) > 0):
             # open group page
-            wd.find_element_by_link_text("groups").click()
+            wd.find_element_by_link_text('groups').click()
 
     def return_to_groups_page(self):
         """Метод. Переход на страницу со списком групп."""
         wd = self.app.wd
-        if not (wd.current_url.endswith("/group.php") and
-                len(wd.find_elements_by_name("new")) > 0):
+        if not (wd.current_url.endswith('/group.php') and
+                len(wd.find_elements_by_name('new')) > 0):
             # open group page
-            wd.find_element_by_link_text("group page").click()
+            wd.find_element_by_link_text('group page').click()
 
     def selected_first_group(self):
-        """Внутренний метод селект первой группы в списке"""
+        """Внутренний метод селект первой группы в списке."""
         wd = self.app.wd
-        wd.find_element_by_name("selected[]").click()
+        wd.find_element_by_name('selected[]').click()
 
-    def selected_group_by_index(self, index):
-        """Внутренний метод селект заданной группы в списке"""
+    def _selected_group_by_index(self, index):
+        """Внутренний метод селект группы в списке по индексу."""
         wd = self.app.wd
-        wd.find_elements_by_name("selected[]")[index].click()
+        wd.find_elements_by_name('selected[]')[index].click()
+
+    def _selected_group_by_id(self, id):
+        """Внутренний метод селект группы в списке по ID."""
+        wd = self.app.wd
+        wd.find_element_by_css_selector(f'input[value="{id}"]').click()
 
     def _change_field_value(self, field_name, text):
         """Внутренний метод. Выбор и заполнение указанного поля."""
@@ -52,7 +57,7 @@ class GroupHelper:
         """Метод определяет есть ли созданные группы."""
         wd = self.app.wd
         self.open_groups_page()
-        return len(wd.find_elements_by_name("selected[]"))
+        return len(wd.find_elements_by_name('selected[]'))
 
     def create(self, group):
         """
@@ -79,15 +84,30 @@ class GroupHelper:
     def delete_group_by_index(self, index):
         """
         Метод удаление указанной группы в списке.
-        Открываем страницу со списком групп. Находим и удаляем произвольную
-        группу в списке. Возвращаемся к списку групп.
+        Открываем страницу со списком групп. Находим и удаляем
+        группу в списке по индексу. Возвращаемся к списку групп.
         """
         wd = self.app.wd
         self.open_groups_page()
         # select first group
-        self.selected_group_by_index(index)
+        self._selected_group_by_index(index)
         # submit and deletion
-        wd.find_element_by_name("delete").click()
+        wd.find_element_by_name('delete').click()
+        self.return_to_groups_page()
+        self.group_cache = None
+
+    def delete_group_by_id(self, id):
+        """
+        Метод удаление указанной группы в списке.
+        Открываем страницу со списком групп. Находим и удаляем
+        группу в списке по ID. Возвращаемся к списку групп.
+        """
+        wd = self.app.wd
+        self.open_groups_page()
+        # select first group
+        self._selected_group_by_id(id)
+        # submit and deletion
+        wd.find_element_by_name('delete').click()
         self.return_to_groups_page()
         self.group_cache = None
 
@@ -107,13 +127,31 @@ class GroupHelper:
         """
         wd = self.app.wd
         self.open_groups_page()
-        self.selected_group_by_index(index)
+        self._selected_group_by_index(index)
         # open modification form group
-        wd.find_element_by_name("edit").click()
+        wd.find_element_by_name('edit').click()
         # fill group form
         self._fill_group_form(new_group_date)
         # submit modification
-        wd.find_element_by_name("update").click()
+        wd.find_element_by_name('update').click()
+        self.return_to_groups_page()
+        self.group_cache = None
+
+    def modify_group_by_id(self, id, new_group_date):
+        """
+        Метод изменения параметров группы.
+        Открываем страницу со списком групп. Находим и изменяем
+        передаваемые параметры группы по ID. Возвращаемся к списку групп.
+        """
+        wd = self.app.wd
+        self.open_groups_page()
+        self._selected_group_by_id(id)
+        # open modification form group
+        wd.find_element_by_name('edit').click()
+        # fill group form
+        self._fill_group_form(new_group_date)
+        # submit modification
+        wd.find_element_by_name('update').click()
         self.return_to_groups_page()
         self.group_cache = None
 
@@ -127,11 +165,10 @@ class GroupHelper:
             self.open_groups_page()
             self.group_cache = []
 
-            for element in wd.find_elements_by_css_selector("span.group"):
+            for element in wd.find_elements_by_css_selector('span.group'):
                 text = element.text
                 id = element.find_element_by_name(
-                        "selected[]").get_attribute("value")
+                        'selected[]').get_attribute('value')
                 self.group_cache.append(Group(name=text, id=id))
 
         return list(self.group_cache)
-

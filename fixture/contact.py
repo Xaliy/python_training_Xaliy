@@ -30,10 +30,17 @@ class ContactHelper:
         wd = self.app.wd
         wd.find_element_by_name("selected[]").click()
 
-    def selected_contact_by_index(self, index):
-        """Внутренний метод селект первого контакта в списке."""
+    def _selected_contact_by_index(self, index):
+        """Внутренний метод селект контакта в списке по индексу."""
         wd = self.app.wd
         wd.find_elements_by_name("selected[]")[index].click()
+
+    def _selected_contact_by_id(self, id):
+        """Внутренний метод селект контакта в списке по ID."""
+        wd = self.app.wd
+        wd.find_element_by_id(f"{id}").click()
+        # wd.find_element_by_css_selector(f"#{id}]").click()
+        # wd.find_element_by_xpath(f"//input[@id='{id}']").click()
 
     def count_contact(self):
         """Метод определяет наличие контактов в списке. Count."""
@@ -118,7 +125,7 @@ class ContactHelper:
         wd = self.app.wd
         self.return_to_home_page()
         # select first contact
-        self.selected_contact_by_index(index)
+        self._selected_contact_by_index(index)
         tr = str(index + 2)
         # wd.find_element_by_xpath("//img[@alt='Edit']").click()
         # wd.find_element_by_xpath('//table[@id="maintable"]/tbody/tr['
@@ -132,20 +139,54 @@ class ContactHelper:
         self.return_to_home_page()
         self.contact_cache = None
 
+    def edit_contact_by_id(self, id, contact):
+        """Метод редактирования контакта в списке по ID."""
+        wd = self.app.wd
+        self.return_to_home_page()
+        # select first contact
+        self._selected_contact_by_id(id)
+        wd.find_element_by_css_selector(
+                f".center a[href='edit.php?id={id}']").click()
+        # modify fill
+        self._fill_contact_form(contact)
+        # save
+        wd.find_element_by_xpath("//input[@value='Update']").click()
+        self.return_to_home_page()
+        self.contact_cache = None
+
     def delete_first_contact(self):
         """Метод удаление первого контакта в списке."""
         self.delete_contact_by_index(0)
 
     def delete_contact_by_index(self, index):
         """
-        Метод удаление указанного контакта в списке.
+        Метод удаление контакта в списке по индексу.
         Открываем домашную страницу со списком контактов.
         Отмечаем нужный контакт в списке. Удаляем.
         """
         wd = self.app.wd
         self.return_to_home_page()
         # select first contact
-        self.selected_contact_by_index(index)
+        self._selected_contact_by_index(index)
+        # submit and deletion
+        wd.find_element_by_xpath("//input[@value='Delete']").click()
+        # модальное окно
+        wd.switch_to.alert.accept()
+        # проверка на удаление
+        wd.find_element_by_css_selector("div.msgbox")
+        self.return_to_home_page()
+        self.contact_cache = None
+
+    def delete_contact_by_id(self, id):
+        """
+        Метод удаление контакта в списке по ID.
+        Открываем домашную страницу со списком контактов.
+        Отмечаем нужный контакт в списке. Удаляем.
+        """
+        wd = self.app.wd
+        self.return_to_home_page()
+        # select first contact
+        self._selected_contact_by_id(id)
         # submit and deletion
         wd.find_element_by_xpath("//input[@value='Delete']").click()
         # модальное окно
@@ -186,13 +227,10 @@ class ContactHelper:
                 #                                   phone_work=all_phones[2],
                 #                                   phone2=all_phones[3]
                 # )
-                self.contact_cache.append(Contact(lastname=lastname,
-                                                firstname=firstname, id=id,
-                                                email=email, address=addr,
-                                                # добавить в модель
-                                                all_phones_from_home_page=
-                                                    all_phones
-                                                  ))
+                self.contact_cache.append(
+                        Contact(lastname=lastname, email=email, address=addr,
+                                all_phones_from_home_page=all_phones)
+                )
 
         return list(self.contact_cache)
 

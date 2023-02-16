@@ -1,32 +1,65 @@
 # -*- coding: utf-8 -*-
-from random import randrange
+# from random import randrange
+import random
 
 from model.models import Group
 
 
-def test_modify_group_name(app):
+def test_modify_group_db(app, db, check_ui):
     """
-    Частичная модификация параметров группы.
+    Частичная модификация параметров группы по ID.
     Изменяем параметр name.
     """
-    if app.group.count() == 0:
+    group_param_new = Group(name='modifay_name_group',
+                            header='modifay_хедер группы',
+                            footer='modifay_футтер группы')
+    if len(db.get_group_list_db()) == 0:
         app.group.create(Group(name='Test_for_modify'))
 
-    old_groups = app.group.get_group_list()
-    index = randrange(len(old_groups))
-    group = Group(name='Modify name')
-    # group.id = old_groups[0].id
-    group.id = old_groups[index].id
-    # app.group.modify_first_group(group)
-    app.group.modify_group_by_index(index, group)
-    new_groups = app.group.get_group_list()
+    old_groups = sorted(db.get_group_list_db(), key=Group.if_or_max)
+    group = random.choice(old_groups)
+    app.group.modify_group_by_id(group.id, group_param_new)
+    new_groups = sorted(db.get_group_list_db(), key=Group.if_or_max)
     # сравнение
     assert len(old_groups) == len(new_groups)
-    old_groups[index] = group
-    assert (sorted(old_groups, key=Group.if_or_max) ==
-            sorted(new_groups, key=Group.if_or_max))
 
-#
+    for i in new_groups:
+        if i.id == group.id:
+            assert (i.name == group_param_new.name and
+                   i.footer == group_param_new.footer and
+                   i.header == group_param_new.header)
+        assert(i == old_groups[new_groups.index(i)])
+        # if True:
+        if check_ui:
+            for k in app.group.get_group_list():
+                if k.id == i.id:
+                    assert (k == i)
+
+
+
+# def test_modify_group_name(app):
+    # """
+    # Частичная модификация параметров группы по индексу.
+    # Изменяем параметр name.
+    # """
+    # if app.group.count() == 0:
+    #     app.group.create(Group(name='Test_for_modify'))
+    #
+    # old_groups = app.group.get_group_list()
+    # index = randrange(len(old_groups))
+    # group = Group(name='Modify name')
+    # # group.id = old_groups[0].id
+    # group.id = old_groups[index].id
+    # # app.group.modify_first_group(group)
+    # app.group.modify_group_by_index(index, group)
+    # new_groups = app.group.get_group_list()
+    # # сравнение
+    # assert len(old_groups) == len(new_groups)
+    # old_groups[index] = group
+    # assert (sorted(old_groups, key=Group.if_or_max) ==
+    #         sorted(new_groups, key=Group.if_or_max))
+
+
 # def test_modify_group_header(app):
 #     """
 #     Частичная модификация параметров группы.
