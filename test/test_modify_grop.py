@@ -28,12 +28,16 @@ def test_modify_group_db(app, db, check_ui):
             assert (i.name == group_param_new.name and
                    i.footer == group_param_new.footer and
                    i.header == group_param_new.header)
-        assert(i == old_groups[new_groups.index(i)])
+        else:
+            assert(i == old_groups[new_groups.index(i)])
         # if True:
         if check_ui:
+            def _clean_gr(group):
+                return Group(id=group.id, name=group.name.strip())
+
             for k in app.group.get_group_list():
                 if k.id == i.id:
-                    assert (k == i)
+                    assert (k == _clean_gr(i))
 
 
 

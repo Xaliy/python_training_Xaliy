@@ -17,15 +17,15 @@ def test_add_group(app, db, json_groups, check_ui):
     old_groups.append(group)
     assert (sorted(old_groups, key=Group.if_or_max)
             == sorted(new_groups, key=Group.if_or_max))
-    if True:
-    # if check_ui:
-        for i in new_groups:
+    # if True:
+    if check_ui:
+        def _clean_gr(group):
+            return Group(id=group.id, name=group.name.strip())
+
+        for i in map(_clean_gr, new_groups):
             for k in app.group.get_group_list():
                 if i.id == k.id:
                     assert (k == i)
-
-
-
 
 
     # # для интерфейса
