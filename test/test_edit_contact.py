@@ -15,10 +15,12 @@ def test_edit_contact_db(app, db, check_ui):
         app.contact.create_new_contact(
             Contact(firstname='firstname_edit', lastname='lastname_edit'))
 
-    contact_new_edit = Contact(firstname='ed_firstname-au',
-                                   lastname='ed_lastname-au',
-                                   address='ed_address-au'
-                                   )
+    contact_new_edit = Contact(
+                        firstname='ed_firstname-au',
+                        lastname='ed_lastname-au',
+                        address='ed_address-au'
+                       )
+
     old_contacts = sorted(db.get_contact_list_db(), key=Contact.if_or_max)
     contact = random.choice(old_contacts)
     app.contact.edit_contact_by_id(contact.id, contact_new_edit)
@@ -26,19 +28,31 @@ def test_edit_contact_db(app, db, check_ui):
     # сравнение
     assert len(old_contacts) == len(new_contacts)
 
-    for indx, i in enumerate(new_contacts):
+    for i in new_contacts:
         if i.id == contact.id:
-            assert (
-                i.firstname == contact_new_edit.firstname and
-                i.lastname == contact_new_edit.lastname and
-                i.address == contact_new_edit.address
-            )
-        if check_ui:
+            assert (i == contact_new_edit)
+            bas_dict = contact_new_edit.__dict__
+            old_dict = old_contacts[new_contacts.index(i)].__dict__
+            i_dict = i.__dict__
+
+            for key, value in bas_dict.items():
+                if value is None and key != 'id':
+                    assert(i_dict[key] == old_dict[key])
+
+        else:
+            assert(i == old_contacts[new_contacts.index(i)])
+        if True:
+        # if check_ui:
             for k in app.contact.get_contact_list():
                 if k.id == i.id:
+                    print(k, i, k == i)
                     assert (k == i)
 
 
+    # if True:
+    #     assert (sorted(new_contacts, key=Contact.if_or_max) ==
+    #             sorted(app.contact.get_contact_list(), key=Contact.if_or_max))
+    #
 
 # def test_edit_first_contact(app):
 #     """Тест редактируем рандомный контакт в списке."""

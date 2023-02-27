@@ -10,11 +10,13 @@ def test_modify_group_db(app, db, check_ui):
     Частичная модификация параметров группы по ID.
     Изменяем параметр name.
     """
-    group_param_new = Group(name='modifay_name_group',
-                            header='modifay_хедер группы',
-                            footer='modifay_футтер группы')
     if len(db.get_group_list_db()) == 0:
         app.group.create(Group(name='Test_for_modify'))
+
+    group_param_new = Group(# name='modifay_name_group',
+                            header='modifay_хедер группы'
+                            # footer='modifay_футтер группы'
+                            )
 
     old_groups = sorted(db.get_group_list_db(), key=Group.if_or_max)
     group = random.choice(old_groups)
@@ -25,21 +27,26 @@ def test_modify_group_db(app, db, check_ui):
 
     for i in new_groups:
         if i.id == group.id:
-            assert (i.name == group_param_new.name and
-                   i.footer == group_param_new.footer and
-                   i.header == group_param_new.header)
+            assert(i == group_param_new)
+            bas_dict = group_param_new.__dict__
+            old_dict = old_groups[new_groups.index(i)].__dict__
+            i_dict = i.__dict__
+
+            for key, value in bas_dict.items():
+                if value is None and key != 'id':
+                    assert(i_dict[key] == old_dict[key])
+
         else:
             assert(i == old_groups[new_groups.index(i)])
-        # if True:
-        if check_ui:
+
+        if True:
+        # if check_ui:
             def _clean_gr(group):
                 return Group(id=group.id, name=group.name.strip())
 
             for k in app.group.get_group_list():
                 if k.id == i.id:
                     assert (k == _clean_gr(i))
-
-
 
 # def test_modify_group_name(app):
     # """

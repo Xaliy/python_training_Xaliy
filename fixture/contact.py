@@ -211,7 +211,7 @@ class ContactHelper:
                 lastname = cells[1].text
                 firstname = cells[2].text
                 addr = cells[3].text
-                email = cells[4].text
+                all_email = cells[4].text
                 # email = cells[5].text
                 # email = cells[4].text
                 all_phones = cells[5].text
@@ -228,8 +228,11 @@ class ContactHelper:
                 #                                   phone2=all_phones[3]
                 # )
                 self.contact_cache.append(
-                        Contact(lastname=lastname, email=email, address=addr,
-                                all_phones_from_home_page=all_phones)
+                        Contact(
+                            id=id, lastname=lastname, firstname=firstname,
+                            all_gmail_from_home_page=all_email,
+                            address=addr,
+                            all_phones_from_home_page=all_phones)
                 )
 
         return list(self.contact_cache)
