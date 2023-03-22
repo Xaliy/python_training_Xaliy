@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# from random import randrange
+from random import randrange
 import random
 
 from model.models import Group
@@ -13,40 +13,33 @@ def test_modify_group_db(app, db, check_ui):
     if len(db.get_group_list_db()) == 0:
         app.group.create(Group(name='Test_for_modify'))
 
-    group_param_new = Group(# name='modifay_name_group',
-                            header='modifay_хедер группы'
+    group_param_new = Group(name='modifay_name_group',
+                            # header='modifay_хедер группы'
                             # footer='modifay_футтер группы'
                             )
 
     old_groups = sorted(db.get_group_list_db(), key=Group.if_or_max)
-    group = random.choice(old_groups)
-    app.group.modify_group_by_id(group.id, group_param_new)
+    # group = random.choice(old_groups)
+    index = randrange(len(old_groups))
+    group_param_new.id = old_groups[index].id
+    app.group.modify_group_by_id(group_param_new.id, group_param_new)
     new_groups = sorted(db.get_group_list_db(), key=Group.if_or_max)
     # сравнение
     assert len(old_groups) == len(new_groups)
+    old_groups[index] = group_param_new
+    assert (sorted(old_groups, key=Group.if_or_max) ==
+            sorted(new_groups, key=Group.if_or_max))
 
-    for i in new_groups:
-        if i.id == group.id:
-            assert(i == group_param_new)
-            bas_dict = group_param_new.__dict__
-            old_dict = old_groups[new_groups.index(i)].__dict__
-            i_dict = i.__dict__
-
-            for key, value in bas_dict.items():
-                if value is None and key != 'id':
-                    assert(i_dict[key] == old_dict[key])
-
-        else:
-            assert(i == old_groups[new_groups.index(i)])
-
-        if True:
-        # if check_ui:
-            def _clean_gr(group):
-                return Group(id=group.id, name=group.name.strip())
-
-            for k in app.group.get_group_list():
-                if k.id == i.id:
-                    assert (k == _clean_gr(i))
+        # if True:
+    if check_ui:
+        assert sorted(new_groups, key=Group.if_or_max) == sorted(
+            app.group.get_group_list(), key=Group.if_or_max)
+        # def _clean_gr(group):
+        #     return Group(id=group.id, name=group.name.strip())
+        #
+        # for k in app.group.get_group_list():
+        #     if k.id == i.id:
+        #         assert (k == _clean_gr(i))
 
 # def test_modify_group_name(app):
     # """
